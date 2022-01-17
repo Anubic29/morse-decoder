@@ -35,10 +35,34 @@ const MORSE_TABLE = {
     '---..':  '8',
     '----.':  '9',
     '-----':  '0',
+    '**********': ' ',
 };
 
 function decode(expr) {
-    // write your solution here
+    let expres = [];
+    let temp = [];
+    let str = '';
+    expr.split('').forEach((sym, index) => {
+        str += sym;
+        if ((index + 1) % 2 === 0) {
+            temp.push(str);
+            str = '';
+        }
+        if ((index + 1) % 10 === 0) {
+            expres.push(temp);
+            temp = [];
+        }
+    });
+    
+    return expres.map(elem => {
+        const code = elem.map(pair => {
+            if (pair === '11') return '-';
+            else if (pair === '10') return '.';
+            else if (pair === '**') return pair;
+            else return '';
+        }).join('')
+        return MORSE_TABLE[code]
+    }).join('');
 }
 
 module.exports = {
